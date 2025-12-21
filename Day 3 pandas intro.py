@@ -46,3 +46,13 @@ print("Number of passengers per classs:\n",passenger_per_class)
 # create a new column "isChild" that is True if Age < 18 else false
 df["isChild"] = df["Age"] < 18
 print(df[["Age", "isChild"]].head())
+
+# find how many missing values are in each column 
+missing_values_per_column = df.isnull().sum()
+print("Missing values per column:\n", missing_values_per_column)
+
+# fill missing Age values with the average age
+average_age = df["Age"].mean()
+df["Age"]  = df["Age"].fillna(average_age)
+print("Age column after filling missing values:\n", df["Age"].head(10))
+
