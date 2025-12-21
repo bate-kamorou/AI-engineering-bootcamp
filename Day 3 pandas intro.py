@@ -27,14 +27,6 @@ print("len of survivors_df:",len(survivors_df))
 non_survivors_df = df[df["Survived"] == 0]
 print("len of non_survivors_df:",len(non_survivors_df))
 
-# find the average age of survivors
-survivors_avg_age = survivors_df["Age"].mean()
-print("Average age of survivors:", survivors_avg_age)
-
-# find the average age of non-survivors
-non_survivors_df_avg_age = non_survivors_df["Age"].mean()
-print("Average age of non-survivors:", non_survivors_df_avg_age)
-
 # find the number of survivors that are less than 18 years old
 num_survivors_under_18  = len(survivors_df[survivors_df["Age"] < 18])
 print("Number of survivors under 18 years old:", num_survivors_under_18)
