@@ -56,3 +56,6 @@ average_age = df["Age"].mean()
 df["Age"]  = df["Age"].fillna(average_age)
 print("Age column after filling missing values:\n", df["Age"].head(10))
 
+# use the groupby function to find the average age of survivors
+average_of_suvivors = df.groupby("Survived")["Age"].mean()
+print(f"Average age of survivors :\n {average_of_suvivors.iloc[1]}\nAverage age of non-survivors:\n", average_of_suvivors.iloc[0])
