@@ -3,7 +3,7 @@
 
 # # sys.path.append =  ["Day-6-capstone-project-(Data_cleaner)"]
 
-from Day_6_capstone_project_data_cleaner import DataCleaner
+from Day_6_data_cleaner import DataCleaner
 
 # # test the class
 
