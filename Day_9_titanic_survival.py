@@ -1,4 +1,3 @@
-import pandas as pd
 from Day_6_data_cleaner import DataCleaner
 from sklearn import linear_model
 from sklearn.model_selection import train_test_split
@@ -19,9 +18,6 @@ df.remove_columns(remove_cols)
 
 df = df.get_clean_data()
 
-# print(df.columns)
-cols = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare',
-       'Sex_male', 'Embarked_Q', 'Embarked_S']
 # # features X and label y 
 X = df.drop(columns=["Survived"])
 y = df["Survived"]
