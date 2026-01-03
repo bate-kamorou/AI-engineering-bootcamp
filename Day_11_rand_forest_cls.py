@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 
 # load the data
-df = DataCleaner("titanic.csv")
+df = DataCleaner("data\\raw\\titanic.csv")
 
 # handle missing values
 df.handle_missing_data("Age", "median")
@@ -16,7 +16,7 @@ df.min_max_scale("Fare")
 encode_cols = ["Sex", "Embarked"]
 df.encode_categorical(encode_cols)
 #remove the unnecessary column
-remove_cols = ["Name", "Ticket", "Cabin"]
+remove_cols = ["Name", "Ticket", "Cabin", ]
 df.remove_columns(remove_cols)
 
 df = df.get_clean_data()
@@ -61,20 +61,19 @@ print(classfi_report)
 #    macro avg       0.81      0.79      0.80       179
 # weighted avg       0.81      0.81      0.81       179
 # ConfusionMatrixDisplay
-conf_display = ConfusionMatrixDisplay(conf_mat, display_labels=rand_f_cls.classes_)
-conf_display.plot()
-plt.title("confusion matrix display")
-plt.show()
+# conf_display = ConfusionMatrixDisplay(conf_mat, display_labels=rand_f_cls.classes_)
+# conf_display.plot()
+# plt.title("confusion matrix display")
+# plt.show()
 
 # feature importance
-important_features = pd.Series(rand_f_cls.feature_importances_, index=X.columns)
-important_features.sort_values().plot(kind="barh")
-plt.title("Most important features")
-plt.show()
+# important_features = pd.Series(rand_f_cls.feature_importances_, index=X.columns)
+# important_features.sort_values().plot(kind="barh")
+# plt.title("Most important features")
+# plt.show()
 
 
-# cross v
-
+print(X_train.head(1))
 
 
 

@@ -76,9 +76,9 @@ class DataCleaner:
         """
         
         try:
-            # index the columns in  the dataframe
+            # index the column in  the dataframe
             col = self.df[column]
-            #  min - max scaling of the columns in the dataframe
+            #  min - max scaling of the column in the dataframe
             self.df[column] = (col - col.min()) / (col.max() - col.min())
         except TypeError as e:
             print(f"Error: column must be numerical {e}")
@@ -115,6 +115,35 @@ class DataCleaner:
         # return the dataset
         return self.df 
     
+    def clean_all(self, missing_col:str,
+                   strategy:str, scale_col:str, 
+                   encode_cols:list[str],
+                   remove_cols:list[str] ):
+        """
+        Run the full titanic cleaning recipe in the correct order.
+
+        Args: 
+            missing_cols: the column with missing values to be filled 
+            strategy: the strategy to fill the column with missing values
+            encode_cols: categorical columns to be one hot encoded
+            remove_cols: unnecessary columns to be removed from the data
+        """
+        # 1. fill in the missing  Age values 
+        self.handle_missing_data(missing_col, strategy)
+
+        # 2. Scale the Fare column
+        self.min_max_scale(scale_col)
+
+        # 3. one hot encode categorical columns
+        self.encode_categorical(encode_cols)
+
+        # 4. remove unnecessary columns
+        self.remove_columns(remove_cols)
+
+        print("full data cleaning process completed")
+
+        return self.get_clean_data()
+
 
 
 

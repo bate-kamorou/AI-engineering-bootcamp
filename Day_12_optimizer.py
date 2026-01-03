@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 
 # load the data
-df = DataCleaner("titanic.csv")
+df = DataCleaner("data\\raw\\titanic.csv")
 
 # handle missing values
 df.handle_missing_data("Age", "median")
@@ -16,7 +16,7 @@ df.min_max_scale("Fare")
 encode_cols = ["Sex", "Embarked"]
 df.encode_categorical(encode_cols)
 #remove the unnecessary column
-remove_cols = ["Name", "Ticket", "Cabin"]
+remove_cols = ["Name", "Ticket", "Cabin", "PassengerId"]
 df.remove_columns(remove_cols)
 
 df = df.get_clean_data()
@@ -64,7 +64,7 @@ important_features.sort_values().plot(kind="barh")
 plt.title("Most important features")
 plt.show()
 
-# random forest parameters optimization]
+# random forest parameters optimization
 from sklearn.model_selection import GridSearchCV
 # from sklearn.metrics import 
 param_grid = {
@@ -94,22 +94,14 @@ best_cls = grid_search_cv.best_estimator_
 best_preds = best_cls.predict(X_test)
 
 best_cls_score = best_cls.score(X_test, y_test)
-print("accuracy : ",best_cls_score)
-
-# the random classifier tuned on the best parameters from  the gride search cv
-# output is {'max_depth': 5, 'min_samples_split': 5, 'n_estimators': 100}
-# accuracy :  0.8212290502793296
+print("Best random classifier accuracy  score: ",best_cls_score)
 
 # classification report of the classifier with best parameters
 best_cls_report = classification_report(y_test, best_preds)
-print("classification report of the best rand classifier:", best_cls_report)
+print("classification report of the best random classifier:", best_cls_report)
 
-# # output 
-# classification report of the best rand classifier:               precision    recall  f1-score   support
-
-#            0       0.81      0.90      0.86       105
-#            1       0.84      0.70      0.76        74
-
-#     accuracy                           0.82       179
-#    macro avg       0.83      0.80      0.81       179
-# weighted avg       0.82      0.82      0.82       179
+ # store the best model and use later to make predictions
+#  # import the model container
+# import joblib
+# joblib.dump(value=best_cls, filename="titanic_model.joblib")
+# print("model saved successfully on disk")
