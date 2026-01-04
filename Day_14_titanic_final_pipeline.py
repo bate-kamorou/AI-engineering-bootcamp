@@ -55,7 +55,7 @@ def run_full_pipeline(data_path:str):
     if not os.path.exists("models"):
         os.makedirs("models")
         joblib.dump(value=cls, filename="models\\titanic_final_model.joblib")
-        print("Path creates and Titanic final model saved")
+        print("Path created and Titanic final model saved")
         
     else :
         joblib.dump(value=cls, filename="models\\titanic_final_model.joblib")
