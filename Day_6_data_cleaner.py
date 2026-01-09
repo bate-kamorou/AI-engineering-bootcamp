@@ -21,6 +21,9 @@ class DataCleaner:
     get_clean_data()
         Return the clean dataset
 
+    clean_all(missing_column, strategy, scale_column, encode_column, remove_column) 
+        return the fully processed data 
+
     """
 
     def __init__(self, file_path:str) : 
@@ -115,8 +118,10 @@ class DataCleaner:
         # return the dataset
         return self.df 
     
-    def clean_all(self, missing_col:str,
-                   strategy:str, scale_col:str, 
+    def clean_all(self,
+                   missing_col:str,
+                   strategy:str, 
+                   scale_col:str, 
                    encode_cols:list[str],
                    remove_cols:list[str] ):
         """
