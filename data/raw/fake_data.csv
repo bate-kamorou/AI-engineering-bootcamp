@@ -1,0 +1,2 @@
+PassengerId,Survived,Pclass,Name,Sex,Age,SibSp,Parch,Ticket,Fare,Cabin,Embarked
+2,1,1, "Bate kamorou",male,27,1,0,PC 17599,71,C85,C

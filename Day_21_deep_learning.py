@@ -1,9 +1,8 @@
 import os 
-import tensorflow as tf
-from keras import layers, Sequential, models
+from keras import layers, Sequential
 from Day_6_data_cleaner import DataCleaner
 from sklearn.model_selection import train_test_split
-#plotting 
+# plotting 
 import matplotlib.pyplot as plt
 # import dropout
 from keras.layers import Dropout
@@ -11,9 +10,23 @@ from keras.layers import Dropout
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 TF_ENABLE_ONEDNN_OPTS=0
+
 # import and clean the titanic data
-data = DataCleaner("data\\raw\\titanic.csv")
-df = data.clean_all("Age", "median", "Fare", ["Sex", "Embarked"], ["Name", "Ticket", "Cabin","PassengerId"])
+data = DataCleaner("data/raw/titanic.csv")
+
+df = data.clean_all("Age", "median",
+                     "Fare", 
+                    ["Sex", "Embarked"], 
+                    ["Name", "Ticket", "Cabin","PassengerId"],
+                    is_training=True)
+
+# save the scaler
+data.save_scaler("data/processor/scaler.joblib")
+
+# check if the processed data is already saved if not save it 
+if not os.path.exists("data/processed/cleaned_titanic.csv"):
+    # save the processed data to csv
+    df.to_csv("data/processed/cleaned_titanic.csv", index=False)
 
 print(df.head(2))
 # # Features and labels
@@ -26,11 +39,25 @@ X_train_val , X_test,  y_train_val, y_test = train_test_split(X, y, test_size=.1
 
 # split into train and validation set
 X_train, X_val, y_train, y_val = train_test_split(X_train_val, y_train_val, test_size=.15, random_state=43)
-# # instantiate the model
 
+
+# save the X_test and y_test dataset to be used for evaluation on the model later on
+
+# check if the X_test split is already saved not save it 
+if not os.path.exists("data/processed/X_test.csv"):
+   X_test.to_csv("data/processed/X_test.csv", index=False)
+
+# check if the y_train split is already saved if not save it
+if not os.path.exists("data/processed/y_test.csv"):
+    y_test.to_csv("data/processed/y_test.csv", index=False)
+
+
+#  instantiate the model
 model = Sequential()
 
+# get the input shape of the data
 input_shape =  X.shape[1]
+
 # # add a the input layer
 model.add(layers.Input((input_shape,)))
 
@@ -51,7 +78,7 @@ model.add(layers.Dense(1, activation="sigmoid"))
 # implente the earlystopping 
 early_stop = EarlyStopping(
     monitor="val_loss",
-    patience=10,
+    patience=15,
     restore_best_weights=True,
 )
 
@@ -61,12 +88,17 @@ if not os.path.exists("models"):
     os.makedirs("models")
 
 
-# implente model checkpoints
-check_points = ModelCheckpoint(
-    filepath="models\\best_titanic_nn1.keras",
-    monitor="val_loss",
-    save_best_only=True,
-)
+# check if the best model is already saved so we don't have to overwrite the best model unless we want to
+# by changing the filepath 
+
+if not os.path.exists("models/best_titanic_nn_model.keras"):
+    # implente model checkpoints if model is not saved
+    check_points = ModelCheckpoint(
+        filepath="models/best_titanic_nn_model.keras",
+        monitor="val_loss",
+        save_best_only=True,
+    )
+
 # complie the model with optimizer , loss and metrics
 model.compile(
     optimizer="adam",
@@ -75,24 +107,16 @@ model.compile(
 )
 
 # train the model 
-history = model.fit(X_train, 
-                    y_train, 
+history = model.fit(X_train_val, 
+                    y_train_val, 
                     batch_size=32, 
-                    epochs=500, 
-                    validation_data=(X_val, y_val),
+                    epochs=300, 
+                    validation_data=(X_test, y_test),
                     callbacks=[early_stop, check_points])
 
 # evaluate the model loss and metrics on the test date
 score = model.evaluate(X_test, y_test)
-print(f" Best model loss is:\n{score[0]:.4} \nBest accuracy is :\n{score[1]:.4}")
-# Best model loss is:
-# 0.4618
-# Best accuracy is :
-# 0.806
-# at 151 of 500 training epochs
-
-
-
+print(f"Best model loss is:\n{score[0]:.4} \nBest accuracy is :\n{score[1]:.4}")
 
 # plot the train and validation loss with matplotlib
 
@@ -104,4 +128,5 @@ plt.ylabel("Loss")
 plt.legend()
 plt.show()
 
-
+print(X_test.head(2))
+print(y_test.head(2))

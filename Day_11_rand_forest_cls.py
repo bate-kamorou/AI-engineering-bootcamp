@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
 
 # load the data
-df = DataCleaner("data\\raw\\titanic.csv")
+df = DataCleaner("data/raw/titanic.csv")
 
 # handle missing values
 df.handle_missing_data("Age", "median")

@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot  as plt
 # import for the deep evaluation
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
-df = DataCleaner("titanic.csv")
+df = DataCleaner("data/raw/titanic.csv")
 
 cols = ['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare',
        'Sex_male', 'Embarked_Q', 'Embarked_S']

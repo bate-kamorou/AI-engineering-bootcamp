@@ -98,7 +98,17 @@ print("Best random classifier accuracy  score: ",best_cls_score)
 
 # classification report of the classifier with best parameters
 best_cls_report = classification_report(y_test, best_preds)
-print("classification report of the best random classifier:", best_cls_report)
+print("classification report of the best random classifier:\n", best_cls_report)
+
+# classification report of the best random classifier:
+#                precision    recall  f1-score   support
+
+#            0       0.81      0.90      0.85       105
+#            1       0.84      0.69      0.76        74
+
+#     accuracy                           0.82       179
+#    macro avg       0.82      0.80      0.80       179
+# weighted avg       0.82      0.82      0.81       179
 
  # store the best model and use later to make predictions
 #  # import the model container

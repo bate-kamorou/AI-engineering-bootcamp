@@ -1,3 +1,4 @@
 .env
 titanic.csv
 __pycache__
+data\raw\fake_data.csv
