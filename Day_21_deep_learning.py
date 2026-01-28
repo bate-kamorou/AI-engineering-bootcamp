@@ -17,16 +17,16 @@ data = DataCleaner("data/raw/titanic.csv")
 df = data.clean_all("Age", "median",
                      "Fare", 
                     ["Sex", "Embarked"], 
-                    ["Name", "Ticket", "Cabin","PassengerId"],
+                    ["Name", "Ticket", "Cabin","PassengerId","SibSp" ,"Parch"],
                     is_training=True)
 
 # save the scaler
-data.save_scaler("data/processor/scaler.joblib")
+# data.save_scaler("data/processor/nn_scaler.joblib")
 
-# check if the processed data is already saved if not save it 
-if not os.path.exists("data/processed/cleaned_titanic.csv"):
-    # save the processed data to csv
-    df.to_csv("data/processed/cleaned_titanic.csv", index=False)
+# # check if the processed data is already saved if not save it 
+# if not os.path.exists("data/processed/cleaned_titanic.csv"):
+#     # save the processed data to csv
+#     df.to_csv("data/processed/cleaned_titanic.csv", index=False)
 
 print(df.head(2))
 # # Features and labels
@@ -44,12 +44,12 @@ X_train, X_val, y_train, y_val = train_test_split(X_train_val, y_train_val, test
 # save the X_test and y_test dataset to be used for evaluation on the model later on
 
 # check if the X_test split is already saved not save it 
-if not os.path.exists("data/processed/X_test.csv"):
-   X_test.to_csv("data/processed/X_test.csv", index=False)
+# if not os.path.exists("data/processed/X_test.csv"):
+#    X_test.to_csv("data/processed/X_test.csv", index=False)
 
-# check if the y_train split is already saved if not save it
-if not os.path.exists("data/processed/y_test.csv"):
-    y_test.to_csv("data/processed/y_test.csv", index=False)
+# # check if the y_train split is already saved if not save it
+# if not os.path.exists("data/processed/y_test.csv"):
+#     y_test.to_csv("data/processed/y_test.csv", index=False)
 
 
 #  instantiate the model
@@ -84,17 +84,17 @@ early_stop = EarlyStopping(
 
 
 # check in the models dir exsist if not create one
-if not os.path.exists("models"):
-    os.makedirs("models")
+# if not os.path.exists("models"):
+#     os.makedirs("models")
 
 
 # check if the best model is already saved so we don't have to overwrite the best model unless we want to
 # by changing the filepath 
 
-if not os.path.exists("models/best_titanic_nn_model.keras"):
+if not os.path.exists("models/best_titanic_removed_nn_model.keras"):
     # implente model checkpoints if model is not saved
     check_points = ModelCheckpoint(
-        filepath="models/best_titanic_nn_model.keras",
+        filepath="models/best_titanic_removed_nn_model.keras",
         monitor="val_loss",
         save_best_only=True,
     )
