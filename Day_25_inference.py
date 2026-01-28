@@ -77,13 +77,19 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
     
     if model_path.endswith(".keras"):
         loaded_model = load_model(model_path)
+        if loaded_model is None:
+            print(f"Failed to load model from {model_path}")
+            return None
         print(f"Model loaded successfully from {model_path}")
         # make prediction with the loaded model
         prediction = loaded_model.predict(df_input)    
-        probability = prediction[0][0]
+        probability = prediction[0][0]      
         return probability
     elif model_path.endswith(".joblib"):
         loaded_model = joblib.load(model_path)
+        if not loaded_model:
+            print(f"Failed to load model from {model_path}")
+            return None
         print(f"Model loaded successfully from {model_path}")
         prediction = loaded_model.predict_proba(df_input)
         probability = prediction[0][1]

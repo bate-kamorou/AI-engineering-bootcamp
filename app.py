@@ -47,11 +47,14 @@ if st.button("**Calculate survival probalility**", type="primary"):
         prediction = predict_survival(data, model_path)
 
         # render the result with some flavors
-        if prediction  > 0.5:
-            st.success(f"### ✅ Survival Likely: {prediction:.2%}")
-            st.balloons()
+        if prediction is not None:
+            if prediction > 0.5:
+                st.success(f"### ✅ Survival Likely: {prediction:.2%}")
+                st.balloons()
+            else:
+                st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
         else:
-            st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
+            st.error("### ❌ Error: Could not make prediction")
 
 
 
