@@ -54,15 +54,6 @@ print(conf_mat)
 # classification report
 cls_report = classification_report(y_test, y_preds)
 print(cls_report)
-# classification report output 
-#   precision    recall  f1-score   support
-
-#            0       0.82      0.85      0.84       105
-#            1       0.77      0.74      0.76        74
-
-#     accuracy                           0.80       179
-#    macro avg       0.80      0.80      0.80       179
-# weighted avg       0.80      0.80      0.80       179
 
 # ConfusionMatrixDisplay
 conf_mat_display = ConfusionMatrixDisplay(confusion_matrix=conf_mat, display_labels=cls.classes_)

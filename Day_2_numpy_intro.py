@@ -19,14 +19,10 @@ def relu(x):
     else:
         return x
 
-# test relu function
-# print(relu(-5))
-# print(relu(3.5))
 
 # test relu function on output array
 relu_output = np.array([relu(item) for item in output])
-# print(output)
-# print(relu_output)
+
 
 # perform relu using numpy maximum function
 output_2  = np.maximum(0, output)

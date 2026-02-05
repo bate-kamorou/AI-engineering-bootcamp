@@ -17,6 +17,3 @@ pre_activation =  np.dot(input, weight) + bias
 # neuron output 
 output = sigmoid(pre_activation)
 print(output)
-
-# output
-# 0.5174928576663897

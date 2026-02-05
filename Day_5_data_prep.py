@@ -3,8 +3,6 @@ import pandas as pd
 # read the csv file into a Dataframe
 df = pd.read_csv("data/raw/titanic.csv")
 
-print(df["Fare"].max())
-print(df["Fare"].min())
 # check for missing values in each column
 missing_values_per_col = df.isnull().sum()
 # print("Missing values per column:\n", missing_values_per_col)

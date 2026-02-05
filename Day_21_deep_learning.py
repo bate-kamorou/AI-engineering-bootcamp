@@ -83,10 +83,6 @@ early_stop = EarlyStopping(
 )
 
 
-# check in the models dir exsist if not create one
-# if not os.path.exists("models"):
-#     os.makedirs("models")
-
 
 # check if the best model is already saved so we don't have to overwrite the best model unless we want to
 # by changing the filepath 

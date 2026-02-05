@@ -23,7 +23,6 @@ def relu(x):
 
 # first layer output
 hidden_layer_output = relu(pre_activation)
-# print(hidden_layer_output)
 
 # output weight
 output_weights = np.array([.5,-.2,.3,.1])
@@ -41,14 +40,12 @@ def sigmoid(x):
 # final output
 output = sigmoid(weighted_output)
 
-# print(output)
-
 
 ####### create the loss function
 def binary_cross_entropy(y_true:int , y_pred:float):
     # add epsilon to prevent log(0)
     epsilon = 1e-15
-    # clip the 
+    # clip the predicted value between epsilon and 1 - epsilon
     y_pred = np.clip(y_pred, epsilon, 1 - epsilon)
 
     return -(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
@@ -56,7 +53,7 @@ def binary_cross_entropy(y_true:int , y_pred:float):
 y_true = 0
 
 loss = binary_cross_entropy(y_true, output)
-# print(loss)
+
     
 
     

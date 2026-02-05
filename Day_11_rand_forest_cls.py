@@ -51,26 +51,12 @@ conf_mat = confusion_matrix(y_test, y_preds, labels=rand_f_cls.classes_)
 # classification report
 classfi_report = classification_report(y_test, y_preds)
 print(classfi_report)
-# # classification_report output
-#               precision    recall  f1-score   support
-
-#            0       0.80      0.90      0.85       105
-#            1       0.82      0.69      0.75        74
-
-#     accuracy                           0.81       179
-#    macro avg       0.81      0.79      0.80       179
-# weighted avg       0.81      0.81      0.81       179
-# ConfusionMatrixDisplay
-# conf_display = ConfusionMatrixDisplay(conf_mat, display_labels=rand_f_cls.classes_)
-# conf_display.plot()
-# plt.title("confusion matrix display")
-# plt.show()
 
 # feature importance
-# important_features = pd.Series(rand_f_cls.feature_importances_, index=X.columns)
-# important_features.sort_values().plot(kind="barh")
-# plt.title("Most important features")
-# plt.show()
+important_features = pd.Series(rand_f_cls.feature_importances_, index=X.columns)
+important_features.sort_values().plot(kind="barh")
+plt.title("Most important features")
+plt.show()
 
 
 print(X_train.head(1))

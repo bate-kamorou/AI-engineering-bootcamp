@@ -161,11 +161,6 @@ class DataCleaner:
                 self.df = self.df.drop(columns="Embarked")
 
 
-
-
-
-
-
     def remove_columns(self, columns:list):
         """ 
         remove unneccessary  columns forn the data set

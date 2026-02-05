@@ -1,5 +1,11 @@
 import streamlit as st
 from Day_25_inference import predict_survival
+import joblib
+import matplotlib.pyplot as plt
+import os
+from keras.models import load_model
+import numpy as np
+import pandas as pd
 
 # page configuration to make it looks good on mobile
 st.set_page_config(page_title="Titanic predictor", page_icon="🚢")
@@ -55,6 +61,57 @@ if st.button("**Calculate survival probalility**", type="primary"):
                 st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
         else:
             st.error("### ❌ Error: Could not make prediction")
+        
+    st.subheader("###💡Model Insights")
+    st.write("Which factor influenced this specific prediction the most?")
+    rf_explainer_path  = "models/best_rf_estimator.joblib"
+    nn_explainer_path  = "models/best_titanic_removed_nn_model.keras"
 
+    if model == "Random Forest" and os.path.exists(rf_explainer_path):
+        rf_explainer = joblib.load(rf_explainer_path)
+        feature_importances = rf_explainer.feature_importances_
+        features = ["Pclass", "Age", "Fare", "Sex_male", "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
+
+        # plot feature importances
+        fig, ax = plt.subplots(figsize=(10, 6))
+        sort_index = feature_importances.argsort()
+        plt.barh([features[i] for i in sort_index], feature_importances[sort_index], color='#0078D4')
+        plt.xlabel("Feature Importance")
+        plt.title("Feature Importance for Random Forest Model")
+        st.pyplot(fig)
+    elif model == "Neural Network" and os.path.exists(nn_explainer_path):
+        nn_explainer = load_model(nn_explainer_path)
+        if nn_explainer != None:
+            weights , baises  = nn_explainer.layers[0].get_weights()
+        feature_importances = np.mean(np.abs(weights), axis=1)
+        # plot the feature importances
+        fig, ax = plt.subplots(figsize=(10, 6))
+        sort_index = feature_importances.argsort()
+        features = ["Pclass", "Age", "Fare", "Sex_male", "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
+        plt.barh([features[i] for i in sort_index], feature_importances[sort_index], color='#FF4B4B')
+        ax.set_xlabel("Average Absolute Weight (Importance Proxy)")
+        ax.set_title("Feature Importance for Neural Network")
+        st.pyplot(fig)
+st.divider()
+st.subheader("🎎 Historical context")
+# load  the raw data
+raw_data_path  = "data/raw/titanic.csv"
+raw_data = pd.read_csv(raw_data_path)
+
+# search for similar passengers based on pclass and sex
+similar_passengers = raw_data[(raw_data["Pclass"] == p_class) and (raw_data["Sex"] == sex)]
+
+if not similar_passengers.empty:
+    actual_rate = similar_passengers["Survived"].mean();
+    st.write("In the actual Titanic disaster, passengers with **Class**" ,p_class, "**Sex**" ,sex, "had a survival rate of", np.round(actual_rate, 2))
+    st.write("Similar passengers in the manifest:")
+    st.dataframe(similar_passengers[["Name", "Age", "Survived"]].head(3))
+else:
+    st.write("No similar passenger found in the historical record.")
+
+# footer
+st.write("---")
+st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+ 
 
 

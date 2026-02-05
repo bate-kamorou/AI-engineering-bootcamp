@@ -52,6 +52,7 @@ def binary_cross_entropy(y_true:int , y_pred:float):
 
     return -(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
 
+# test the loss function
 y_true = 0
 
 loss = binary_cross_entropy(y_true, output)

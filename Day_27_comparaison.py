@@ -17,15 +17,6 @@ print(processed_data.head())
 # get the raw data
 data_path = "data/raw/titanic.csv"
 
-# instantiate the data cleaner class
-# data = DataCleaner(data_path)
-
-# processed_data = data.clean_all("Age", "median",
-#                      "Fare", 
-#                     ["Sex", "Embarked"], 
-#                     ["Name", "Ticket", "Cabin","PassengerId"],
-#                     is_training=True)
-
 
 X = processed_data.drop(columns="Survived")
 y = processed_data["Survived"]
@@ -61,4 +52,3 @@ print(f"confusion matrix: \n {conf_mat}")
 # random forest classification report
 class_report = classification_report(y_val, predictions)
 print(f"classification report :\n {class_report}")
-# 

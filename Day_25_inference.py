@@ -63,11 +63,13 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
 
     # take a look at the processed input data
     print("Processed input data for prediction:\n", df_input)
-
-    # load the model
-    # check if the model exist before loading
-
-    # model_path = "models/best_titanic_nn_model.keras"  # Use an existing model
+    
+    # do reindexing to make sure the data passed to the model has the same feature columns as the training data
+    features = ["Pclass", "Age", "SibSp", "Parch", "Fare", "Sex_male", 
+                "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
+    # reindex the input data to match the expected feature columns
+    df_new = df_input.reindex(columns=features, fill_value=0)
+    # load model
     model_path = model_path  # Use an existing model
     # load either keras model or joblib model based on the file extension to make a prediction
     if not os.path.exists(model_path):
@@ -82,7 +84,7 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
             return None
         print(f"Model loaded successfully from {model_path}")
         # make prediction with the loaded model
-        prediction = loaded_model.predict(df_input)    
+        prediction = loaded_model.predict(df_new)    
         probability = prediction[0][0]      
         return probability
     elif model_path.endswith(".joblib"):
@@ -91,7 +93,7 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
             print(f"Failed to load model from {model_path}")
             return None
         print(f"Model loaded successfully from {model_path}")
-        prediction = loaded_model.predict_proba(df_input)
+        prediction = loaded_model.predict_proba(df_new)
         probability = prediction[0][1]
         return probability
     else:
